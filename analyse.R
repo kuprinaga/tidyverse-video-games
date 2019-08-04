@@ -64,7 +64,7 @@ p_grid <- arrangeGrob(p,
                              theme=ttheme_minimal(padding=unit(c(1,1,1,1),'mm'),
                                                   base_colour = colors,
                                                   base_size = 24)))
-ggsave('plot.png', p_grid,
+ggsave('plot_over_time.png', p_grid,
        width = 10, height = 6, units = 'in')
 
 
