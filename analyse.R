@@ -56,7 +56,7 @@ p <- ggplot() +
   
 
 palette_colors = brewer.pal(3, 'Set2')
-title = c('\nNumber of games released daily ','\non weekdays','\n and','\n weekends')
+title = c('\nNumber of games released daily on','\ weekdays','\n and','\n weekends')
 colors = c('black', palette_colors[1], 'black', palette_colors[2],'black')
 
 p_grid <- arrangeGrob(p, 
