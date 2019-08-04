@@ -52,7 +52,7 @@ p <- ggplot() +
   scale_color_brewer(palette = 'Set2') +
   labs(x = 'Date',
        y = 'Releases per day',
-       caption = 'Data from #tidytuesday. Visualisation by @kuprinasha')
+       caption = 'Data from #TidyTuesday. Visualisation by @kuprinasha')
   
 
 palette_colors = brewer.pal(3, 'Set2')
