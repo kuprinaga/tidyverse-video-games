@@ -4,6 +4,7 @@ library(ggthemes)
 library(lubridate)
 library(gridExtra)
 library(grid)
+library(glue)
 
 
 video_games <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-07-30/video_games.csv")
@@ -65,3 +66,36 @@ p_grid <- arrangeGrob(p,
                                                   base_size = 24)))
 ggsave('plot.png', p_grid,
        width = 10, height = 6, units = 'in')
+
+
+p_release_day <- video_games %>% 
+  group_by(release_date_pretty) %>%
+  summarise(count_games = n()) %>%
+  mutate(day_of_week = weekdays(release_date_pretty),
+         weekend = ifelse(day_of_week %in% c('Saturday', 'Sunday'),
+                          'yes', 'no')) %>% 
+  group_by(day_of_week) %>% 
+  summarise(sum_all = sum(count_games)) %>% 
+  arrange(desc(sum_all)) %>%
+  na.omit() %>%
+  ggplot() + 
+  geom_bar(aes(x = reorder(day_of_week, -sum_all),
+               y = sum_all),
+           stat = 'identity',
+           fill = 'steelblue') +
+  geom_text(aes(x = reorder(day_of_week, -sum_all),
+                y = sum_all+200,
+                label = sum_all),
+            color = 'slategrey') +
+  theme_tufte(base_size = 20) +
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) +
+  labs(x = '',
+       title = 'What is the most popular release day?',
+       subtitle = glue(' Games released by day of week since ', format(min(video_games$release_date_pretty, na.rm = T), '%B %Y')))
+
+ggsave('plot_release_day.png', p_release_day,
+       width = 10, height = 8, units ='in')
+
+
